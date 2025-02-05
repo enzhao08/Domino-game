@@ -1,0 +1,82 @@
+import java.util.*;
+public class Table{
+
+    // Varibales d'instance
+    private Domino[] tabdom;        // table de jeu
+    private int ndp;                // nb dominos posés
+
+    public Table(int n){
+        this.tabdom = new Domino[n];
+        this.ndp = 0;               // nb dominos posés 
+    }
+    // Création nouveau domino
+    public void initTable(){
+        // Récupération des valeurs
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Entrer la valeur de gauche : ");
+        int g = scan.nextInt();
+        
+
+        System.out.print("Entrer la valeur de droite : ");
+        int d = scan.nextInt();
+
+        // Création et affectation des valeurs dans le tableau
+        Domino dom = new Domino(g,d);
+        int i = 0;
+        this.tabdom[i] = dom;
+        i++;
+        this.ndp =i;
+        scan.close();
+    }
+
+    // Affichage de la table de dominos
+    public void affTable(){
+        System.out.println("table de "+this.ndp+" dominos");
+        for (int i = 0 ; i < this.ndp ; i++){
+            this.tabdom[i].afficher();
+        }
+    }
+
+    // Recherche de dominos dans le jeu
+    int recherche(int g, int d){
+        if (this.tabdom[0].laGauche()== d ||this.tabdom[0].laGauche() == g){
+            return -1;
+        }
+        else if (this.tabdom[ndp-1].laDroite() == g || this.tabdom[ndp-1].laDroite() == d){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public void poserAgauche(int g, int d){
+        System.out.println("Pose à gauche");
+        
+        // Nouveau domino
+        Domino dom = new Domino(g,d);
+
+        // Sens du domino
+        if (dom.laGauche() == this.tabdom[0].laGauche()){
+            System.out.println("Inversion du domino");
+            dom.inverser();
+        }
+
+        for (int i = ndp-1 ; i <= 0 ; i--){
+            this.tabdom[i] = this.tabdom[i+1];
+        }
+        this.tabdom[0] = dom;
+        this.ndp ++;
+    }
+
+    public void poserAdroite(int g, int d){
+        Domino dom = new Domino(g,d);
+        if (dom.laDroite() == this.tabdom[ndp].laDroite()){
+            System.out.println("Inversion du domino");
+            dom.inverser();
+        }
+        this.ndp ++;
+        this.tabdom[ndp] = dom;
+    }
+    
+}
