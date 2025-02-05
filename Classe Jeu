@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Jeu{
+
+    public static void main(String[] args){
+        final int N = 28;
+        String reponse;
+        int g,d,pose;
+        
+        Scanner scan = new Scanner(System.in);
+
+        // Création de la table jeu
+        Table une_table = new Table(N);
+
+        // Initialisation du jeu avec un domino
+        une_table.initTable();
+
+        // Affichage etat initial
+        System.out.println("Situation initiale");
+        une_table.affTable();
+
+        //Lancement du jeu
+        System.out.println("Le jeu commence maintenant");
+        do{
+            System.out.print("Val gauche : ");
+            g=scan.nextInt();
+            System.out.print("Val droite : ");
+            d=scan.nextInt();
+
+            pose = une_table.recherche(g,d);
+            System.out.println("pose "+pose);
+
+            switch(pose){
+                case -1:
+                    une_table.poserAgauche(g,d);
+                    break;
+                case 1:
+                    une_table.poserAdroite(g,d);
+                    break;
+                case 0:
+                    System.out.println("Pose impossile");
+                    break;
+            }
+
+            une_table.affTable();
+            System.out.println("Arrêter (oui/non)");
+            reponse = scan.nextLine();
+
+        }while(reponse.compareTo("oui")!= 0 );
+        scan.close();
+    }
+}
